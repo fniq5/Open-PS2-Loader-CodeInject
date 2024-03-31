@@ -443,6 +443,14 @@ void bdmLaunchGame(int id, config_set_t *configSet)
             LOG("Cheats error\n");
     }
 
+    if ((result = sbLoadImage(bdmPrefix, game->startup)) < 0) {
+      if(gAutoLaunchBDMGame == NULL) {
+        guiWarning(_l(_STR_ERR_IMAGE_LOAD_FAILED), 10);
+      } else {
+        LOG("Image error\n");
+      }
+    }
+
     if (gRememberLastPlayed) {
         configSetStr(configGetByType(CONFIG_LAST), "last_played", game->startup);
         saveConfig(CONFIG_LAST, 0);

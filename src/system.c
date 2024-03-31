@@ -875,6 +875,7 @@ void sysLaunchLoaderElf(const char *filename, const char *mode_str, int size_cdv
     config->EnableDebug = gEnableDebug;
     config->HDDSpindown = gHDDSpindown;
     config->gCheatList = GetCheatsEnabled() ? (unsigned int *)GetCheatsList() : NULL;
+    config->gImage = GetImageEnabled() ? (unsigned*)GetImage() : 0;
     config->g_ps2_ETHOpMode = gETHOpMode;
 
     sprintf(config->g_ps2_ip, "%u.%u.%u.%u", local_ip_address[0], local_ip_address[1], local_ip_address[2], local_ip_address[3]);

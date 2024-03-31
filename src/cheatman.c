@@ -29,7 +29,10 @@
 static int gEnableCheat; // Enables PS2RD Cheat Engine - 0 for Off, 1 for On
 static int gCheatMode;   // Cheat Mode - 0 Enable all cheats, 1 Cheats selected by user
 
+static int gEnableImage;
+
 static u32 gCheatList[MAX_CHEATLIST]; // Store hooks/codes addr+val pairs
+static u32 gImage[MAX_IMAGEWORDS]; 
 
 void InitCheatsConfig(config_set_t *configSet)
 {
@@ -41,15 +44,21 @@ void InitCheatsConfig(config_set_t *configSet)
     gCheatMode = 0;
     memset(gCheatList, 0, sizeof(gCheatList));
 
+    gEnableImage = 0;
+    memset(gImage, 0, sizeof(gImage));
+
     if (configGetInt(configSet, CONFIG_ITEM_CHEATSSOURCE, &gCheatSource)) {
         // Load the rest of the per-game CHEAT configuration if CHEAT is enabled.
         if (configGetInt(configSet, CONFIG_ITEM_ENABLECHEAT, &gEnableCheat) && gEnableCheat) {
             configGetInt(configSet, CONFIG_ITEM_CHEATMODE, &gCheatMode);
         }
+
+        configGetInt(configSet, CONFIG_ITEM_ENABLEIMAGE, &gEnableImage);
     } else {
         if (configGetInt(configGame, CONFIG_ITEM_ENABLECHEAT, &gEnableCheat) && gEnableCheat) {
             configGetInt(configGame, CONFIG_ITEM_CHEATMODE, &gCheatMode);
         }
+        configGetInt(configGame, CONFIG_ITEM_ENABLEIMAGE, &gEnableImage);
     }
 }
 
@@ -58,9 +67,17 @@ int GetCheatsEnabled(void)
     return gEnableCheat;
 }
 
+int GetImageEnabled(void) {
+  return gEnableImage;
+}
+
 const u32 *GetCheatsList(void)
 {
     return gCheatList;
+}
+
+const u32 *GetImage(void) {
+  return gImage;
 }
 
 /*
@@ -329,6 +346,25 @@ static inline char *read_text_file(const char *filename, int maxsize)
 end:
     close(fd);
     return buf;
+}
+
+int LoadImage(const char *filename) {
+  int fd = -1;
+  int len;
+  int err = 0;
+  fd = open(filename, O_RDONLY);
+  if(fd < 0) goto fail;
+  len = read(fd, gImage, MAX_IMAGEWORDS*4);
+  if((len < 0) || (len > (MAX_IMAGEWORDS*4))) goto fail;
+
+  goto done;
+
+fail:
+  err = -1;
+
+done:
+  if(fd >= 0) close(fd);
+  return err;
 }
 
 /*

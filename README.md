@@ -9,6 +9,11 @@ Review the LICENSE file for further details.
 [![Discord](https://img.shields.io/discord/652861436992946216?style=flat&logo=Discord)](https://discord.gg/CVFUa9xh6B)
 [![Mega](https://img.shields.io/badge/Mega-%23D90007.svg?style=flat&logo=Mega&logoColor=white)](https://mega.nz/folder/Ndwi1bAK#oLWNhH_g-h0p4BoT4c556A)
 
+## Code Inject
+Image Linker module allows patch files up to 4KiB in size to be linked as the game launches. IMG directory contains the GAMEID.img file the same as PS2RD CHT. This feature can be activated with "Enable Linker" under the game's "Cheat Settings."
+
+The binary format of img file can be discovered in ee_core/src/cheat_api.c LinkImage subroutine.
+
 ## Introduction
 
 Open PS2 Loader (OPL) is a 100% Open source game and application loader for

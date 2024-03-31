@@ -647,6 +647,10 @@ static void ethLaunchGame(int id, config_set_t *configSet)
         }
     }
 
+    if ((result = sbLoadImage(ethPrefix, game->startup)) < 0) {
+      guiWarning(_l(_STR_ERR_IMAGE_LOAD_FAILED), 10);
+    }
+
     settings = (struct cdvdman_settings_smb *)((u8 *)(&smb_cdvdman_irx) + i);
 
     switch (game->format) {

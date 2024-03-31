@@ -46,6 +46,7 @@ struct EECoreConfig_t
     unsigned char g_ps2_ETHOpMode;
 
     unsigned int *gCheatList; // Store hooks/codes addr+val pairs
+    unsigned *gImage;
 
     void *eeloadCopy;
     void *initUserMemory;

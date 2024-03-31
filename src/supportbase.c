@@ -822,6 +822,23 @@ void sbCreateFolders(const char *path, int createDiscImgFolders)
         sbCreateFoldersFromList(path, discImgFolders);
 }
 
+int sbLoadImage(const char *path, const char *file) {
+  char imgfile[64];
+  const u32 *image;
+  int result = 0;
+
+  if(GetImageEnabled()) {
+    snprintf(imgfile, sizeof(imgfile), "%sIMG/%s.img", path, file);
+    LOG("Load image file %s\n", imgfile);
+    if(!LoadImage(imgfile)) {
+      LOG("Image load success\n");
+    } else {
+      result = -1;
+    }
+  }
+  return result;
+}
+
 int sbLoadCheats(const char *path, const char *file)
 {
     char cheatfile[64];
